@@ -8,13 +8,18 @@
 .whole-page {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .nav-bar {
-  background-color: rgb(231, 137, 222);
-  width: 100vh !important; 
+  background-color: rgb(212, 158, 211);
+  width: 100% !important; 
+  height: 10vh;
   display: flex;
   justify-content: space-around;
+  top: 0px;
+  left: 0px;
+  position: fixed;
 }
 
 nav {
@@ -25,8 +30,8 @@ nav {
   gap: 2rem;
 }
 
-nav div {
-  margin: 20px;
+nav div:hover {
+  color: rgb(64, 3, 62);
 }
 
 @media (prefers-reduced-motion: no-preference) {
