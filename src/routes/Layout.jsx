@@ -7,10 +7,17 @@ function Layout() {
             <div className="nav-bar">
                 <nav>
                     <div>
-                        <h3>Feed</h3>
+                        <Link to="/">
+                        <h2 className="logo">🌌 Sky Lurk</h2>
+                        </Link>
                     </div>
                     <div>
-                        <h3>Create</h3>
+                        <Link to="/view">
+                        <h3>Feed</h3>
+                        </Link>
+                    </div>
+                    <div>
+                        <Link to="/create"><h3>Create</h3></Link>
                     </div>
                 </nav>
             </div>

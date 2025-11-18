@@ -1,10 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Link } from 'react-router'
 import './index.css'
 import App from './App.jsx'
 import Layout from './routes/Layout.jsx'
+import CreatePost from './pages/CreatePost.jsx'
+import ViewPosts from './pages/ViewPosts.jsx'
+import DetailedView from './pages/DetailedView.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -12,6 +14,9 @@ createRoot(document.getElementById('root')).render(
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<App />} />
+        <Route path="/view" element={<ViewPosts />} />
+        <Route path="/view/:id" element={<DetailedView />} />
+        <Route path="/create" element={<CreatePost />} />
       </Route>
     </Routes>
     </BrowserRouter>
