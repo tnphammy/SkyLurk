@@ -7,6 +7,7 @@ import Layout from './routes/Layout.jsx'
 import CreatePost from './pages/CreatePost.jsx'
 import ViewPosts from './pages/ViewPosts.jsx'
 import DetailedView from './pages/DetailedView.jsx'
+import EditPost from './pages/EditPost.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/view" element={<ViewPosts />} />
         <Route path="/view/:id" element={<DetailedView />} />
         <Route path="/create" element={<CreatePost />} />
+        <Route path="/edit/:id" element={<EditPost />} />
       </Route>
     </Routes>
     </BrowserRouter>

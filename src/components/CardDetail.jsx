@@ -21,10 +21,13 @@ function CardDetail(props) {
     return (
         <div className="post-view">
             <img src={post.img_url} className="post-img" />
+            <p>🤎 {post.likes}</p>
             <h3>@{post.author}</h3>
             <h2>{post.title}</h2>
             <p>{post.caption}</p>
             <p>{post.created_at}</p>
+            <Link to={`/edit/${id}`}><button>Edit</button></Link>
+            <button>Delete</button>
         </div>
     )
 }
