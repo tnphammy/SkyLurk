@@ -8,7 +8,7 @@ function Layout() {
                 <nav>
                     <div>
                         <Link to="/">
-                        <h2 className="logo">🌌 Sky Lurk</h2>
+                        <h2 className="logo">🌌 SkyLurk</h2>
                         </Link>
                     </div>
                     <div>

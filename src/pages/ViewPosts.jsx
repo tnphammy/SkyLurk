@@ -1,36 +1,79 @@
 import Card from '../elements/Card.jsx'
-import SearchBar from '../components/SearchBar.jsx';
 import { Link } from 'react-router-dom'
 import { supabase } from '../client'
 import { useState, useEffect } from 'react'
 
 function ViewPosts(props) {
     const [posts, setPosts] = useState([]);
+    const [sortType, setSortType] = useState("Latest")
+    const [query, setQuery] = useState("");
 
     useEffect(()=> {
-        const fetchPosts = async() => {
-            const { data } = await supabase
-            .from('Posts')
-            .select('*')
-            .order("created_at", { ascending: false });
-
-            setPosts(data);
-        }
         fetchPosts()
-    }, [props]);
+    }, [sortType, query]);
+
+    function handleQuery(event) {
+        setQuery(event.target.value)
+    }
+
+    const fetchPosts = async() => {
+        try {
+            let q = supabase.from('Posts').select('*');
+
+            // searching keywords (if needed)
+            if (query && query.trim() !== "") {
+                q = q.ilike('title', `%${query.trim()}%`);
+            }
+    
+            // sorting
+            if (sortType === "Latest") {
+                q.order("created_at", {ascending: false})
+            }
+            else if (sortType ==="Most Popular") {
+                q.order("likes", {ascending: false})
+            }
+    
+            const { data, error } = await q;
+            if (error) {
+              console.error('Supabase fetch error:', error);
+              setPosts([]);
+              return;
+            }
+            setPosts(data ?? []);
+        }
+        catch (err) {
+        console.error('Unexpected fetch error:', err);
+        setPosts([]);
+      }
+    }
+
+    const handleSubmitQuery = async(event) => {
+        event.preventDefault();
+        fetchPosts()
+
+    }
 
     return (
         <div className="whole-page">
             <div className="feed-functions">
                 <div className="sort-container">
                     <label htmlFor="sort-by">Sort by: </label>
-                    <select>
+                    <select
+                    id="sort-by"
+                    value={sortType}
+                    onChange={(e) => setSortType(e.target.value)}>
                         <option>Latest</option>
                         <option>Most Popular</option>
                     </select>
                 </div>
                 <div className="search-bar">
-                    <SearchBar />
+                    <input
+                    type="text"
+                    placeholder="Search titles..."
+                    value={query}
+                    onChange={handleQuery}
+                    />
+                    <button type="submit" onClick={handleSubmitQuery}>Search</button>
                 </div>
             </div>
             <div className="feed-posts">

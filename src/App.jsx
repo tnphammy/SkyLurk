@@ -9,6 +9,7 @@ function App(props) {
   return (
     <div>
       <h1>Welcome to SkyLurk!</h1>
+      <h2>Don't know where to put your pretty sky photos? SkyLurk's your limit!</h2>
       <Link to="/view">
       <button>Continue as an anonymous user</button>
       </Link>
