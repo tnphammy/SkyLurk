@@ -38,6 +38,7 @@ function ViewPosts(props) {
                 [...posts].map((post, index) => (
                     <Link to={`/view/${post.id}`} key={post.id}>
                         <Card 
+                        id = {post.id}
                         key = {post.id}
                         author = {post.author}
                         created_at = {post.created_at}

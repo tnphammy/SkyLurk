@@ -3,16 +3,16 @@ import { Link } from 'react-router'
 import { supabase } from '../client'
 
 function Card(props) {
-    const id = props;
+    const id = props.id;
     const [count, setCount] = useState(props.likes)
 
-    const updateCount = async() => {
-        setCount(count + 1)
+    const updateCount = async(event) => {
+        setCount(prev => prev + 1)
 
-      await supabase
-      .from('Posts')
-      .update({likes: count})
-      .eq("id", id)
+        await supabase
+        .from('Posts')
+        .update({likes: count + 1})
+        .eq("id", id)
 
     }
 
