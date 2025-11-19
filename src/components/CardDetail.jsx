@@ -27,7 +27,6 @@ function CardDetail(props) {
             <p>{post.caption}</p>
             <p>{post.created_at}</p>
             <Link to={`/edit/${id}`}><button>Edit</button></Link>
-            <button>Delete</button>
         </div>
     )
 }

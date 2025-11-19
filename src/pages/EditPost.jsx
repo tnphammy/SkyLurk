@@ -6,6 +6,7 @@ function EditPost(props) {
     const {id} = useParams();
     const [post, setPost] = useState({"author":"", "title":"", "caption":"", "img_url":""})
 
+    // Load current post data (so the user doesn't have to rewrite)
     useEffect(() => {
         const fetchPost = async() => {
             const { data } = await supabase
@@ -27,12 +28,24 @@ function EditPost(props) {
             }
         })
     }
+
     const updatePost = async(event) => {
         event.preventDefault();
 
         await supabase
         .from('Posts')
         .update({title: post.title, author: post.author, caption: post.caption, img_url: post.img_url})
+        .eq("id", id);
+
+        window.location="/view";
+    }
+
+    const deletePost = async(event) => {
+        event.preventDefault();
+
+        await supabase
+        .from('Posts')
+        .delete()
         .eq("id", id);
 
         window.location="/view";
@@ -73,6 +86,7 @@ function EditPost(props) {
                 </div>
                 <div>
                     <button type="submit" value="Submit" onClick={updatePost}>Update</button>
+                    <button onClick={deletePost}>Delete</button>
                 </div>
             </form>
         </div>
