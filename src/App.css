@@ -24,6 +24,7 @@
 }
 
 nav {
+  color: #D4CBC7;
   display: inline-flex;
   flex-direction: row;
   justify-content: space-between;
@@ -32,9 +33,15 @@ nav {
 }
 
 nav div:hover {
-  color: #D4CBC7;
+  color: #f2edea;
 }
 
+.user-info {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  margin-top: 100px;
+}
 .logo {
   position: fixed;
   left: 50px;

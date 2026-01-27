@@ -1,20 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Card from './elements/Card.jsx'
-import { Link } from 'react-router';
-function App(props) {
+import "./App.css";
+import "./index.css";
+import { useState, useEffect } from "react";
+import { supabase } from "./client.js";
+import Account from "./components/Account.jsx";
+import Auth from "./components/Auth.jsx";
+
+function App() {
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session);
+      });
+
+      supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session);
+      });
+    };
+
+    fetchSession();
+  }, []);
 
   return (
-    <div>
-      <h1>Welcome to SkyLurk!</h1>
-      <h2>Don't know where to put your pretty sky photos? SkyLurk's your limit!</h2>
-      <Link to="/view">
-      <button>Continue as an anonymous user</button>
-      </Link>
+    <div className="container" style={{ padding: "50px 0 100px 0" }}>
+      {!session ? <Auth /> : <Account key={session} session={session} />}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

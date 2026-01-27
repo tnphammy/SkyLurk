@@ -19,6 +19,7 @@ function Card(props) {
     return (
         <div className="post-card">
             <div className="post-text">
+                <img src={props.img_url} className="post-img" />
                 <h2>{props.title}</h2>
                 <p>{props.created_at}</p>
             </div>

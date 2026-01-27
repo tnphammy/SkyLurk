@@ -2,8 +2,7 @@ import { supabase } from '../client'
 import { useState } from 'react'
 
 function CreatePost() {
-    const [post, setPost] = useState({"author":"", "title":"", "caption": "", "img_url":""});
-
+    const [post, setPost] = useState({"author":"", "title":"", "caption": "", "img_url":"", "user_id":""});
     function handleChange(event) {
         const {name, value} = event.target;
         setPost( (prev) => {
@@ -16,9 +15,12 @@ function CreatePost() {
     const createPost = async(event) => {
         event.preventDefault();
 
+        // Get user object
+        const { data : { user } } = await supabase.auth.getUser();
+
         await supabase
         .from('Posts')
-        .insert({title: post.title, author: post.author, caption: post.caption, img_url: post.img_url})
+        .insert({title: post.title, author: post.author, caption: post.caption, img_url: post.img_url, user_id : user.id})
         .select();
 
         window.location="/view";
