@@ -22,7 +22,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/create" element={<CreatePost />} />
         <Route path="/edit/:id" element={<EditPost />} />
         <Route path="/profile" element={<ProfileView />} />
-        <Route path="/profile/edit" element={<Account />} />
+        {/* <Route path="/profile/edit" element={<Account />} /> */}
       </Route>
     </Routes>
     </BrowserRouter>

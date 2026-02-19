@@ -13,8 +13,8 @@ function Account({ session }) {
     async function getProfile() {
       setLoading(true)
       // Get user object
-      const { data : { user } } = await supabase.auth.getUser();
-      console.log("I set the user!")
+      console.log("Trying to get userrrr...");
+      const user = session?.user;
       setUser(user);
 
 
@@ -42,6 +42,7 @@ function Account({ session }) {
     return () => {
       ignore = true
       console.log("I set the user!")
+      console.log(user);
     }
   }, [session])
 
@@ -50,14 +51,13 @@ function Account({ session }) {
 
     setLoading(true)
     // Get user object
-    const { data : { user } } = await supabase.auth.getUser();
+    const { data : { user } } = session?.user;
     console.log(data);
 
 
     const updates = {
       id: user.id,
-      username,
-      website,
+      username: username,
       avatar_url: avatarUrl,
       updated_at: new Date(),
     }
@@ -76,7 +76,7 @@ function Account({ session }) {
     <form onSubmit={updateProfile} className="form-widget">
       <div>
         <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={user.email} disabled />
+        <input id="email" type="text" value={session.user.email} disabled />
       </div>
       <div>
         <label htmlFor="username">Name</label>
@@ -86,15 +86,6 @@ function Account({ session }) {
           required
           value={username || ''}
           onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="url"
-          value={website || ''}
-          onChange={(e) => setWebsite(e.target.value)}
         />
       </div>
 

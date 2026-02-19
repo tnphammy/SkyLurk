@@ -10,30 +10,33 @@ function App() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("Session from getSession:", session); // Debugging
       setSession(session);
     });
-  
-    const { data: { subscription } } =
-      supabase.auth.onAuthStateChange((_event, session) => {
-        setSession(session);
-      });
-  
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("Session from getSession:", session); // Debugging
+      setSession(session);
+    });
+
     return () => subscription.unsubscribe();
   }, []);
-  
-  useEffect(() => {
-    console.log("yuouou")
+
     if (session) {
-      console.log("I was here")
-      console.log(session.user.id);
+      console.log("I was here");
+      console.log(session);
     }
-  }, [session]);
-  
 
 
   return (
     <div className="container" style={{ padding: "50px 0 100px 0" }}>
-      {!session ? <Auth /> : <Account key={session.user.id} session={session} />}
+      {!session ? (
+        <Auth />
+      ) : (
+        <Account key={session.user.id} session={session} />
+      )}
     </div>
   );
 }
