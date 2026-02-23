@@ -20,7 +20,7 @@ function Layout() {
                         <Link to="/create"><h3>Create</h3></Link>
                     </div>
                     <div>
-                        <Link to={"/profile"}><h3>Profile</h3></Link>
+                        <Link to="/profile"><h3>Profile</h3></Link>
                     </div>
                 </nav>
             </div>

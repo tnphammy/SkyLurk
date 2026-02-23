@@ -83,11 +83,12 @@ function ViewPosts(props) {
                         <Card 
                         id = {post.id}
                         key = {post.id}
-                        author = {post.author}
+                        username = {post.username}
                         created_at = {post.created_at}
                         title = {post.title}
                         img_url = {post.img_url}
-                        likes = {post.likes} />
+                        />
+                        {/* // likes = {post.likes}  */}
                     </Link>
                 ))
             )

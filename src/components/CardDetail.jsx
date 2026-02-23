@@ -5,7 +5,7 @@ import { supabase } from "../client";
 function CardDetail() {
     const {id} = useParams();
     const [post, setPost] = useState({
-        "author":"", 
+        "username":"", 
         "title":"", 
         "caption":"", 
         "img_url":"", 
@@ -13,7 +13,11 @@ function CardDetail() {
     const [commenter, setCommenter] = useState("");
     const [comment, setComment] = useState("");
 
-
+    const [loading, setLoading] = useState(true)
+    const [user, setUser] = useState(null)
+    const [username, setUsername] = useState(null)
+    const [canEdit, setCanEdit] = useState(false);
+    // Get post 
     useEffect(() => {
         const fetchPost = async() => {
             const { data } = await supabase
@@ -27,7 +31,73 @@ function CardDetail() {
               });
         }
         fetchPost();
-    }, [id])
+    }, [id]) 
+
+    // Get session
+    const [session, setSession] = useState(null);
+
+    useEffect(() => {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session);
+      });
+  
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session);
+      });
+  
+      return () => subscription.unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        let ignore = false
+        async function getProfile() {
+          setLoading(true)
+          // Get user object
+          const user = session?.user;
+
+          // SET USER
+          setUser(user);
+          console.log("user rn is:::::");
+          console.log(user);
+          if (post.user_id === user.id) {
+              setCanEdit(true); // switch edit access
+              console.log(canEdit);
+          }
+    
+    
+    
+          let { data, error } = await supabase
+          .from('profiles')
+          .select('*')    
+          .eq('id', user.id)
+          .single()
+    
+          if (!ignore) {
+            if (error) {
+              console.warn(error)
+            } else if (data) {
+              setUsername(data.username);
+              console.log("username here is:");
+              console.log(data.username);
+            }
+          }
+    
+          setLoading(false)
+        }
+        
+        if (session) {
+            getProfile();
+        }
+    
+        return () => {
+          ignore = true
+        }
+      }, [session])
+
+
+
 
 
     const handleSubmitComment = async(event) => {
@@ -60,16 +130,31 @@ function CardDetail() {
 
     }
 
+    useEffect(() => {
+        // Check if the user can edit the post
+        if (post.user_id && user && post.user_id === user.id) {
+          setCanEdit(true); 
+        } else {
+          setCanEdit(false); 
+        }
+      }, [post.user_id, user]); // Run  whenever post.user_id or user changes
+
     return (
         <div className="post-view">
             <div className="pure-post">
                 {post.img_url && <img src={post.img_url} className="post-img" />}
                 <h2>🤎 {post.likes}</h2>
-                <h3>@{post.author}</h3>
+                <h3>@{post.username}</h3>
                 <h2>{post.title}</h2>
                 <p>{post.caption}</p>
                 <p>{post.created_at}</p>
-                <Link to={`/edit/${id}`}><button>Edit</button></Link>
+                <div>
+                 {canEdit && (
+                      <Link to={`/edit/${id}`}>
+                      <button>Edit</button>
+                      </Link>
+                 )}
+                </div>
             </div>
             <div className="comment-section">
                 <h2>Post a comment!</h2>

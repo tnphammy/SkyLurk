@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "./client.js";
 import Account from "./components/Account.jsx";
 import Auth from "./components/Auth.jsx";
+import { Outlet, Link } from 'react-router';
 
 function App() {
   const [session, setSession] = useState(null);

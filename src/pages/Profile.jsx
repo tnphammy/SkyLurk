@@ -59,11 +59,6 @@ function ProfileView(props) {
 
     return (
         <div className="whole-page">
-            <div className="user-info">
-                This is where your info lies...
-                <Link to="/profile/edit"><button>Edit Account</button></Link>
-
-            </div>
             <div className="feed-functions">
                 <div className="sort-container">
                     <label htmlFor="sort-by">Sort by: </label>
@@ -92,7 +87,7 @@ function ProfileView(props) {
                         <Card 
                         id = {post.id}
                         key = {post.id}
-                        author = {post.author}
+                        username = {post.username}
                         created_at = {post.created_at}
                         title = {post.title}
                         img_url = {post.img_url}

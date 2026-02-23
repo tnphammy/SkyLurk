@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '../client'
 
 function Account({ session }) {
@@ -6,9 +6,7 @@ function Account({ session }) {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState(null)
   const [avatar_url, setAvatarUrl] = useState(null)
-  // const [email, setEmail] = useState(null);
-  // const [created_at, setCreatedAt] = useState(null);
-  // const [updated_at, setUpdatedAt] = useState(null);
+
 
   useEffect(() => {
     let ignore = false
@@ -20,17 +18,21 @@ function Account({ session }) {
       setUser(user);
 
 
-      const { data, error } = await supabase
-        .from('profiles')
-        .select(`username, avatar_url`)
-        .eq('id', user.id)
-        .single()
+
+      let { data, error } = await supabase
+      .from('profiles')
+      .select('*')    
+      .eq('id', user.id)
+      .single()
 
       if (!ignore) {
         if (error) {
           console.warn(error)
         } else if (data) {
-          console.log("I set username, created and updated.");
+          setUsername(data.username);
+          setAvatarUrl(data.avatar_url);
+          console.log("here is url");
+          console.log(data.avatar_url);
         }
       }
 
@@ -46,7 +48,7 @@ function Account({ session }) {
     }
   }, [session])
 
-  async function updateProfile(event, avatarUrl) {
+  async function updateProfile(event) {
     event.preventDefault()
 
     setLoading(true)
@@ -82,7 +84,7 @@ function Account({ session }) {
       <div className="user_editables">
         <label htmlFor="email">Email: </label>
         <input id="email" type="text" value={session.user.email} disabled />
-        <label htmlFor="username">Name: </label>
+        <label htmlFor="username">Name:</label>
         <input
           id="username"
           type="text"

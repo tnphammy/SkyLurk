@@ -4,7 +4,9 @@ import { supabase } from "../client";
 
 function EditPost(props) {
     const {id} = useParams();
-    const [post, setPost] = useState({"author":"", "title":"", "caption":"", "img_url":""})
+    const [post, setPost] = useState({"username":"", "title":"", "caption":"", "img_url":""})
+    //const [canEdit, setCanEdit] = useState(false);
+
 
     // Load current post data (so the user doesn't have to rewrite)
     useEffect(() => {
@@ -34,7 +36,7 @@ function EditPost(props) {
 
         await supabase
         .from('Posts')
-        .update({title: post.title, author: post.author, caption: post.caption, img_url: post.img_url})
+        .update({title: post.title, username: post.username, caption: post.caption, img_url: post.img_url})
         .eq("id", id);
 
         window.location="/view";
@@ -54,13 +56,6 @@ function EditPost(props) {
         <div>
             <form>
                 <div className="post-input">
-                    <h3>Author: </h3>
-                    <input
-                    type="text"
-                    placeholder="Author"
-                    name="author" 
-                    value={post.author}
-                    onChange={handleChange}/>
                     <h3>Title:</h3>
                     <input
                     type="text"
