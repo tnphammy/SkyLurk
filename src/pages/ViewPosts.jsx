@@ -87,8 +87,8 @@ function ViewPosts(props) {
                         created_at = {post.created_at}
                         title = {post.title}
                         img_url = {post.img_url}
+                        likes = {post.likes}
                         />
-                        {/* // likes = {post.likes}  */}
                     </Link>
                 ))
             )

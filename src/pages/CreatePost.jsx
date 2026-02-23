@@ -87,7 +87,7 @@ function CreatePost() {
         .insert({title: post.title, username: username, caption: post.caption, img_url: post.img_url, user_id : user.id})
         .select();
 
-        //window.location="/view";
+        window.location="/view";
     }
     return (
         <div>
